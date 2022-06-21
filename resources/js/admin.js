@@ -81,6 +81,19 @@ export function initAdmin(socket) {
     }
     
     
+// Socket
+
+socket.on('orderPlaced', (order) => {
+    new Noty({
+        type: 'success',
+        timeout: 1000,
+        text: 'New order!',
+        progressBar: false,
+    }).show();
+    orders.unshift(order)
+    orderTableBody.innerHTML = ''
+    orderTableBody.innerHTML = generateMarkup(orders)
+})
 
 
 

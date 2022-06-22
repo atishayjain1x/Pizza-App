@@ -13,8 +13,7 @@ const passport = require('passport')
 const Emitter = require('events')
  
 
-const url='mongodb://localhost/pizza';
-mongoose.connect(url, { useNewUrlParser: true,  useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_CONNECTION_URL, { useNewUrlParser: true,  useUnifiedTopology: true });
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('Database connected...');
@@ -62,6 +61,9 @@ app.set('views',path.join(__dirname,'resources/views'))
 app.set('view engine','ejs')
 
 require('./routes/web')(app)
+app.use((req,res)=>{
+    res.status(404).send('<h1>404,Page Not Found</h1>')
+})
 
 const server=app.listen(3300,()=>{
      console.log(`Listening on port ${PORT}`)
